@@ -44,12 +44,14 @@ class _MainScreenState extends State<MainScreen> {
             height: 100,
             color: Colors.grey[300],
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10, right: 20),
+              padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
               child: Row(
                 children: [
                   footer(title: "# of Item In Cart", value: itemsQtys().toString()),
+                  const SizedBox(width: 8),
+                  footer(title: "Total Price", value: itemsTotalPrice().toString()),
                   Expanded(child: Container()),
-                  footer(title: "Total Price", value: itemsTotalPrice().toString())
+                  SizedBox(height: 80, child: TextButton(onPressed: () {}, child: const Text("Checkout")))
                 ],
               ),
             ),
