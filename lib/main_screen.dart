@@ -8,6 +8,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
+//https://redowls.gumroad.com/l/FreeRestaurantPOS
+
 class _MainScreenState extends State<MainScreen> {
   // List<Item> itemsList = [
   //   Item(
@@ -28,8 +30,58 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
+        child: Column(
+          children: [
+            headerView(),
+            filterView(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget filterView() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 25, right: 25),
+      child: Row(
+        children: [
+          const Text(
+            "Pizza",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          Expanded(child: Container()),
+          const Row(
+            children: [
+              Text(
+                "Max Price",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              ),
+              Icon(Icons.arrow_drop_down_rounded),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget headerView() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -45,12 +97,35 @@ class _MainScreenState extends State<MainScreen> {
                   const Icon(Icons.search, size: 30),
                 ],
               ),
+              const SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Image.network(
-                    "https://image.similarpng.com/very-thumbnail/2022/06/Fresh-delicious-pizza-on-transparent-background-PNG.png",
-                    width: 150,
+                    "https://pngimg.com/d/pizza_PNG44071.png",
+                    width: 100,
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text("Total Amount"),
+                      const SizedBox(height: 5),
+                      const Text("\$ 42.83"),
+                      const SizedBox(height: 5),
+                      Container(
+                        height: 40,
+                        width: 150,
+                        decoration: const BoxDecoration(
+                            color: Colors.black, borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: const Center(
+                          child: Text(
+                            "Pay",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               )
             ],
