@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:police/model/item.dart';
+import 'package:intl/intl.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -9,126 +9,50 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Item> itemsList = [
-    Item(
-        name: "Fruit 1",
-        price: 1.2,
-        image: "https://exoticfruits.co.uk/cdn/shop/products/passionfruit-exoticfruitscouk-270048.jpg?v=1645488927"),
-    Item(name: "babaya", price: 0.3, image: "https://www.freshco.com.sg/cdn/shop/products/Papaya.jpg?v=1586842607"),
-    Item(
-        name: "banana", price: 2.6, image: "https://static.libertyprim.com/files/familles/banane-large.jpg?1569271725"),
-    Item(name: "Mango", price: 4.9, image: "https://www.svz.com/wp-content/uploads/2018/05/Mango.jpg"),
-    Item(name: "apple", price: 3.1, image: "https://static.libertyprim.com/files/familles/pomme-large.jpg?1569271834"),
-    Item(name: "dragon", price: 6.0, image: "https://www.color-meanings.com/wp-content/uploads/Pitaya.jpeg"),
-  ];
+  // List<Item> itemsList = [
+  //   Item(
+  //       name: "Fruit 1",
+  //       price: 1.2,
+  //       image: "https://exoticfruits.co.uk/cdn/shop/products/passionfruit-exoticfruitscouk-270048.jpg?v=1645488927"),
+  //   Item(name: "babaya", price: 0.3, image: "https://www.freshco.com.sg/cdn/shop/products/Papaya.jpg?v=1586842607"),
+  //   Item(
+  //       name: "banana", price: 2.6, image: "https://static.libertyprim.com/files/familles/banane-large.jpg?1569271725"),
+  //   Item(name: "Mango", price: 4.9, image: "https://www.svz.com/wp-content/uploads/2018/05/Mango.jpg"),
+  //   Item(name: "apple", price: 3.1, image: "https://static.libertyprim.com/files/familles/pomme-large.jpg?1569271834"),
+  //   Item(name: "dragon", price: 6.0, image: "https://www.color-meanings.com/wp-content/uploads/Pitaya.jpeg"),
+  // ];
+
+  final DateTime now = DateTime.now();
+  final DateFormat formatter = DateFormat('dd MMMM yyyy');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Shoping App"),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: itemsList.length,
-                itemBuilder: (context, index) {
-                  return tile(
-                    context: context,
-                    item: itemsList[index],
-                  );
-                }),
-          ),
-          Container(
-            height: 100,
-            color: Colors.grey[300],
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-              child: Row(
+      backgroundColor: Colors.grey[100],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  footer(title: "# of Item In Cart", value: itemsQtys().toString()),
-                  const SizedBox(width: 8),
-                  footer(title: "Total Price", value: itemsTotalPrice().toString()),
-                  Expanded(child: Container()),
-                  SizedBox(height: 80, child: TextButton(onPressed: () {}, child: const Text("Checkout")))
+                  const Icon(Icons.menu, size: 30),
+                  Text(
+                    "Today, ${formatter.format(now)}",
+                    style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w600, fontSize: 12),
+                  ),
+                  const Icon(Icons.search, size: 30),
                 ],
               ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  int itemsQtys() {
-    var qty = 0;
-    for (var x in itemsList) {
-      qty = qty + x.qty;
-    }
-    return qty;
-  }
-
-  double itemsTotalPrice() {
-    double totalPrice = 0;
-    for (var x in itemsList) {
-      if (x.qty > 0) {
-        totalPrice = totalPrice + (x.price * x.qty);
-      }
-    }
-    return totalPrice;
-  }
-
-  Widget footer({required String title, required String value}) {
-    return Column(
-      children: [
-        Text(title),
-        Text(
-          value,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-      ],
-    );
-  }
-
-  Widget tile({required BuildContext context, required Item item}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 56,
-        width: MediaQuery.of(context).size.width,
-        color: Colors.grey[200],
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Image.network(item.image, width: 50, height: 50),
-              Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Column(
-                  children: [
-                    Text(item.name),
-                    Text("${item.price} JD"),
-                  ],
-                ),
-              ),
-              Expanded(child: Container()),
-              IconButton(
-                  onPressed: () {
-                    if (item.qty == 0) {
-                      return;
-                    }
-                    item.qty = item.qty - 1;
-                    setState(() {});
-                  },
-                  icon: const Icon(Icons.remove)),
-              Text(item.qty.toString()),
-              IconButton(
-                  onPressed: () {
-                    item.qty = item.qty + 1;
-                    setState(() {});
-                  },
-                  icon: const Icon(Icons.add))
+              Row(
+                children: [
+                  Image.network(
+                    "https://image.similarpng.com/very-thumbnail/2022/06/Fresh-delicious-pizza-on-transparent-background-PNG.png",
+                    width: 150,
+                  ),
+                ],
+              )
             ],
           ),
         ),
