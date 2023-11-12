@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:police/model/item.dart';
 import 'package:police/widgets/add_to_cart.dart';
 import 'package:police/widgets/chart.dart';
 import 'package:police/widgets/discount.dart';
@@ -7,7 +8,9 @@ import 'package:police/widgets/qty.dart';
 import 'package:police/widgets/rating.dart';
 
 class MainItemView extends StatelessWidget {
-  const MainItemView({super.key});
+  final Item item;
+  final Function onChange;
+  const MainItemView({super.key, required this.item, required this.onChange});
 
   @override
   Widget build(BuildContext context) {
@@ -33,41 +36,61 @@ class MainItemView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Stack(
+              alignment: AlignmentDirectional.center,
               children: [
                 Image.asset(
-                  "swaar/pizza1.png",
+                  "swaar/pizza${item.image}.png",
                   width: 145,
                 ),
-                const DiscountView(),
-                const QtyView(),
+                item.offerPrice > 0
+                    ? DiscountView(
+                        offerPrice: item.offerPrice,
+                      )
+                    : Container(),
+                item.qty > 0
+                    ? QtyView(
+                        qty: item.qty,
+                      )
+                    : Container(),
               ],
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Text(
-                  "White Chicken",
-                  style: TextStyle(color: Color(0xFF515F65), fontSize: 20, fontWeight: FontWeight.w300),
+                  item.name,
+                  style: const TextStyle(color: Color(0xFF515F65), fontSize: 20, fontWeight: FontWeight.w300),
                 ),
                 Text(
-                  "Spicy Chicken",
-                  style: TextStyle(color: Color(0xFF515F65), fontSize: 12),
+                  item.desc,
+                  style: const TextStyle(color: Color(0xFF515F65), fontSize: 12),
                 ),
-                SizedBox(height: 10),
-                RatingView(),
-                SizedBox(height: 16),
-                AddToCartView(),
+                const SizedBox(height: 10),
+                RatingView(rate: item.rate),
+                const SizedBox(height: 16),
+                AddToCartView(
+                  price: item.price,
+                  qty: item.qty,
+                  onMinus: () {
+                    item.qty = item.qty - 1;
+                    onChange();
+                  },
+                  onPlus: () {
+                    item.qty = item.qty + 1;
+                    onChange();
+                  },
+                ),
               ],
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 25),
-                ChartView(),
-                ProperatiesView(title: "Proteins", value: "16,2"),
-                ProperatiesView(title: "Carbohydrate", value: "13,9"),
-                ProperatiesView(title: "Fiber", value: "8,6"),
+                const SizedBox(height: 25),
+                ChartView(kcal: item.kcal),
+                ProperatiesView(title: "Proteins", value: item.protiens),
+                ProperatiesView(title: "Carbohydrate", value: item.carbo),
+                ProperatiesView(title: "Fiber", value: item.fiber),
               ],
             ),
             const SizedBox(width: 5)

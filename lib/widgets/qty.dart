@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class QtyView extends StatelessWidget {
-  const QtyView({super.key});
+  final int qty;
+
+  const QtyView({super.key, required this.qty});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,8 @@ class QtyView extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "5",
-            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            "$qty",
+            style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
       ),

@@ -2,7 +2,8 @@ import 'package:circular_chart_flutter/circular_chart_flutter.dart';
 import 'package:flutter/material.dart';
 
 class ChartView extends StatelessWidget {
-  const ChartView({super.key});
+  final int kcal;
+  const ChartView({super.key, required this.kcal});
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +15,12 @@ class ChartView extends StatelessWidget {
           initialChartData: <CircularStackEntry>[
             CircularStackEntry(
               <CircularSegmentEntry>[
-                const CircularSegmentEntry(
-                  33.33,
+                CircularSegmentEntry(
+                  (kcal / 10).toDouble(),
                   Colors.green,
                 ),
                 CircularSegmentEntry(
-                  66.67,
+                  (1000 - (kcal / 10)).toDouble(),
                   Colors.grey[300],
                 ),
               ],
@@ -29,16 +30,16 @@ class ChartView extends StatelessWidget {
           edgeStyle: SegmentEdgeStyle.round,
           percentageValues: true,
         ),
-        const Positioned(
+        Positioned(
           top: 13,
           left: 16,
           child: Column(
             children: [
               Text(
-                "512",
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                "$kcal",
+                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
               ),
-              Text(
+              const Text(
                 "kcal",
                 style: TextStyle(color: Color(0xFF515F65), fontSize: 6),
               ),

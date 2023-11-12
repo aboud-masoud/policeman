@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:police/model/item.dart';
 
 import 'package:police/widgets/filter.dart';
 import 'package:police/widgets/header.dart';
@@ -14,18 +15,56 @@ class MainScreen extends StatefulWidget {
 //https://redowls.gumroad.com/l/FreeRestaurantPOS
 
 class _MainScreenState extends State<MainScreen> {
-  // List<Item> itemsList = [
-  //   Item(
-  //       name: "Fruit 1",
-  //       price: 1.2,
-  //       image: "https://exoticfruits.co.uk/cdn/shop/products/passionfruit-exoticfruitscouk-270048.jpg?v=1645488927"),
-  //   Item(name: "babaya", price: 0.3, image: "https://www.freshco.com.sg/cdn/shop/products/Papaya.jpg?v=1586842607"),
-  //   Item(
-  //       name: "banana", price: 2.6, image: "https://static.libertyprim.com/files/familles/banane-large.jpg?1569271725"),
-  //   Item(name: "Mango", price: 4.9, image: "https://www.svz.com/wp-content/uploads/2018/05/Mango.jpg"),
-  //   Item(name: "apple", price: 3.1, image: "https://static.libertyprim.com/files/familles/pomme-large.jpg?1569271834"),
-  //   Item(name: "dragon", price: 6.0, image: "https://www.color-meanings.com/wp-content/uploads/Pitaya.jpeg"),
-  // ];
+  List<Item> itemsList = [
+    Item(
+      offerPrice: 0,
+      desc: "Spicy Checken",
+      rate: 3.2,
+      kcal: 900,
+      protiens: "17,9",
+      carbo: "10,8",
+      fiber: "1,9",
+      image: "1",
+      name: "White Chicken",
+      price: 18.3,
+    ),
+    Item(
+      offerPrice: 3.2,
+      desc: "Spicy Checken",
+      rate: 1.2,
+      kcal: 110,
+      protiens: "13,9",
+      carbo: "1,8",
+      fiber: "0,9",
+      image: "2",
+      name: "Black Chicken",
+      price: 1.3,
+    ),
+    Item(
+      offerPrice: 5.1,
+      desc: "Spicy Checken",
+      rate: 8.2,
+      kcal: 311,
+      protiens: "17,9",
+      carbo: "5,8",
+      fiber: "1,7",
+      image: "3",
+      name: "Red Chicken",
+      price: 5.1,
+    ),
+    Item(
+      offerPrice: 0,
+      desc: "Spicy Checken",
+      rate: 3.2,
+      kcal: 500,
+      protiens: "17,9",
+      carbo: "10,8",
+      fiber: "1,3",
+      image: "4",
+      name: "Green Chicken",
+      price: 8.2,
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +73,35 @@ class _MainScreenState extends State<MainScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const HeaderView(price: "0.0"),
+            HeaderView(price: totalPrice().toStringAsFixed(2)),
             const FilterView(),
             Expanded(
-              child: ListView.builder(itemBuilder: (ctx, index) {
-                return const MainItemView();
-              }),
+              child: ListView.builder(
+                  itemCount: itemsList.length,
+                  itemBuilder: (ctx, index) {
+                    return MainItemView(
+                      item: itemsList[index],
+                      onChange: () {
+                        setState(() {});
+                      },
+                    );
+                  }),
             )
           ],
         ),
       ),
     );
+  }
+
+  double totalPrice() {
+    double totalPrice = 0;
+
+    for (var item in itemsList) {
+      if (item.qty > 0) {
+        totalPrice = totalPrice + (item.qty * item.price);
+      }
+    }
+
+    return totalPrice;
   }
 }
